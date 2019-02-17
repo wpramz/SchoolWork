@@ -1,0 +1,180 @@
+/*
+ * orderedList.h
+ *
+ *  Created on: Feb 10, 2019
+ *      Author: willi
+ */
+
+#ifndef ORDEREDLIST_H_
+#define ORDEREDLIST_H_
+using namespace std;
+
+class orderedList{
+public:
+	orderedList(int sz, int valz[]);
+	orderedList(int);
+	void mergeSort(int, int);
+	void merge(int, int,int);
+	int search(int target);
+	void print();
+private:
+	int size;
+	int *values;
+
+};
+
+orderedList::orderedList(int sz, int valz[]){
+	//std::cout<<"inside orderedList constructor"<<std::endl;
+	size = sz;
+	values = new int[size];
+	for(int i = 0;i<sz; i++){
+		values[i]=valz[i];
+	}
+	//mergeSort(values);
+	mergeSort(0,size-1);
+	//std::cout<<"l/eaving constructor"<<std::endl;
+}
+
+
+void orderedList::mergeSort(int l, int r){
+	/*int sz = values.size();
+	int arrayOne[size/2];
+	int arrayTwo[size/2];
+	for(int i = 0; i<size/2; i++){
+		arrayOne[i]=values[i];
+	}
+	for(int i = size/2; i<size; i++){
+		arrayTwo[i] = values[i];
+	}
+	mergeSort(size/2, arrayOne);
+	mergeSort(size/2, arrayTwo);
+	merge(arrayOne,arrayTwo);*/
+	if(l<r){
+		/*std::cout<<"Very beginning of if";
+		print();*/
+		int middle = (l+r)/2;
+		/*std::cout<<"before first mergeSort";
+		print();*/
+		mergeSort(l, middle);
+		/*std::cout<<"before second mergeSort";
+		print();*/
+		mergeSort(middle+1, r);
+		/*std::cout<<"before merge";
+		print();*/
+		merge(l, middle, r);
+	}
+}
+void orderedList::merge(int l, int m, int r){
+	std::cout<<"INSIDE MY MERGE"<<std::endl;
+	int i,j;
+	int k = 0;
+	int size1 = m-l+1;
+	cout<<"******SIZE 1: "<<size1<<endl;
+
+	int size2 = r-m;
+	cout<<"******SIZE 2: "<<size2<<endl;
+	int L[size1], R[size2];
+	int temp[r-l];
+	std::cout<<"Before first loop ";
+	print();
+	for(i = 0; i<size1; i++){
+		L[i] = values[l+i];
+	}
+	std::cout<<"Before second loop ";
+	print();
+	for(j = 0; j<size2; j++){
+		R[j] = values[m+j+1];
+	}
+	i = 0, j= 0;
+	std::cout<<"Before first while loop ";
+	print();
+	while(i<size1 && j<size2){
+		if(L[i]<R[j]){
+			temp[k] = L[i];
+			k++;
+			i++;
+		}
+		else{
+			temp[k] = R[j];
+			k++;
+			j++;
+		}
+	}
+	cout<<"Before printing temp first time"<<endl;
+	for(int i = 0; i<r-l; i++){
+		cout<<temp[i]<<" "<<endl;
+	}
+	cout<<"value of r-l: "<<r-l<<endl;
+	cout<<"Size of J: "<<j<<endl;
+	std::cout<<"Before second while loop ";
+	print();
+	while(i<size1){
+		cout<<"INSIDE MY FUCKING WHILE LOOP FOR L"<<endl;
+		cout<<"K: "<<k<<" i: "<<i<<endl;
+		temp[k] = L[i];
+		k++;
+		i++;
+	}
+	std::cout<<"Before third while loop ";
+	print();
+	while(j<size2){
+		cout<<"INSIDE MY FUCKING WHILE LOOP FOR R"<<endl;
+		temp[k] = R[j];
+		k++;
+		j++;
+	}
+	cout<<"Before printing temp second time"<<endl;
+	for(int i = 0; i<r-l; i++){
+		cout<<temp[i]<<" "<<endl;
+	}
+	cout<<"Before printing L"<<endl;;
+	for(int i =0; i<size1; i++){
+		cout<<L[i]<<" ";
+	}
+	cout<<endl;
+	cout<<"Before printing R"<<endl;;
+	for(int i =0; i<size1; i++){
+		cout<<R[i]<<" ";
+	}
+	cout<<endl;
+	cout<<"Before printing temp"<<endl;
+	for(int i = 0; i<r-l; i++){
+		cout<<temp[i]<<" "<<endl;
+	}
+	cout<<"Before final for";
+	print();
+	for(i = l; i<r; i++){
+		values[i] = temp[i-l];
+	}
+	cout<<"after final for";
+	print();
+	//std::cout<<"exiting merge"<<std::endl;
+}
+
+int orderedList::search(int target){
+	int left = 0;
+	int right = size-1;
+	int middle;
+	while(left<=right){
+		middle = (right + left)/2;
+		if(values[middle]<target){
+			left = middle+1;
+		}
+		else if(values[middle]>target){
+			right = middle-1;
+		}
+		else{ return middle;}
+	}
+	return -1;
+}
+
+void orderedList::print(){
+	for(int i = 0; i<size; i++){
+		if(i%10==0){
+			std::cout<<std::endl;
+		}
+		std::cout<<values[i]<<" ";
+	}
+	std::cout<<std::endl;
+}
+#endif /* ORDEREDLIST_H_ */

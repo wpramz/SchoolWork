@@ -1,0 +1,119 @@
+/*
+ * orderedList.h
+ *
+ *  Created on: Feb 10, 2019
+ *      Author: willi
+ */
+
+#ifndef ORDEREDLIST_H_
+#define ORDEREDLIST_H_
+
+
+class orderedList{
+public:
+	orderedList(int sz, int valz[]);
+	void mergeSort(int valz[], int l, int r);
+	void merge(int valz[], int l, int m, int r);
+	int search(int target);
+	void print();
+private:
+	int size;
+	int *values;
+
+};
+
+orderedList::orderedList(int sz, int valz[]){
+	//std::cout<<"inside orderedList constructor"<<std::endl;
+	size = sz;
+	values = new int[size];
+	for(int i = 0;i<sz; i++){
+		values[i]=valz[i];
+	}
+	mergeSort(values, 0, sz-1);
+	//std::cout<<"leaving constructor"<<std::endl;
+}
+
+
+void orderedList::mergeSort(int valz[], int l, int r){
+	//std::cout<<l<<": "<<valz[l]<<" "<<r<<": "<<valz[r]<<std::endl;
+	if(l<r){
+		int middle = (l+r)/2;
+		//std::cout<<"middle: "<<middle<<", left: "<<l<<", right: "<<r<<std::endl;
+		mergeSort(valz, l, middle);
+		mergeSort(valz, middle +1, r);
+		merge(valz, l, middle, r);
+	}
+	//std::cout<<"exiting mergeSort"<<std::endl;
+}
+
+void orderedList::merge(int valz[], int l, int m, int r){
+	int i,j;
+	int k = 0;
+	int size1 = m-l+1;
+	int size2 = r-m;
+	int L[size1], R[size2];
+	int temp[r-l];
+	for(i = 0; i<size1; i++){
+		L[i] = valz[l+i];
+	}
+
+	for(j = 0; j<size2; j++){
+		R[j] = valz[m+j+1];
+	}
+	i = 0, j= 0;
+	while(i<size1 && j<size2){
+		if(L[i]<R[j]){
+			temp[k] = L[i];
+			i++;
+			k++;
+		}
+		else{
+			temp[k] = R[j];
+			k++;
+			j++;
+		}
+	}
+	while(i<size1){
+		temp[k] = L[i];
+		k++;
+		i++;
+	}
+
+	while(j<size2){
+		temp[k] = R[j];
+		k++;
+		j++;
+	}
+	for(i = l; i<r; i++){
+		valz[i] = temp[i-l];
+	}
+	//std::cout<<"exiting merge"<<std::endl;
+}
+
+int orderedList::search(int target){
+	int left = 0;
+	int right = size-1;
+	int middle;
+	while(left<=right){
+		middle = (right + left)/2;
+		if(values[middle]<target){
+			left = middle+1;
+		}
+		else if(values[middle]>target){
+			right = middle-1;
+		}
+		else{ return middle;}
+	}
+	return -1;
+}
+
+void orderedList::print(){
+	for(int i = 0; i<size; i++){
+		if(i%10==0){
+			std::cout<<std::endl;
+		}
+		std::cout<<values[i]<<" ";
+	}
+	std::cout<<std::endl;
+}
+#endif /* ORDEREDLIST_H_ */

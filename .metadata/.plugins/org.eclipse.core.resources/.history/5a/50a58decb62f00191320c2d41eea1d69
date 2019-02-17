@@ -1,0 +1,19 @@
+/*
+ * main.h
+ *
+ *  Created on: Feb 10, 2019
+ *      Author: willi
+ */
+
+#ifndef MAIN_H_
+#define MAIN_H_
+
+#include <iostream>
+#include <cstdlib>
+#include <fstream>
+
+#include "orderedList.h"
+#include "mtfList.h"
+
+
+#endif /* MAIN_H_ */
